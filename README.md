@@ -1,5 +1,5 @@
 # Bigrams
-Tarea de contador de bigramas
+Simple Bigrams counter.
 
 ## Requirements
 Java JDK
