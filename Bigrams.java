@@ -20,26 +20,13 @@ public class Bigrams {
 
     void run() {
 
-        openFile();
         collectStats();
         collectResults();
         dumpTable();
-        //showAlphaResults();
         showFrequencyResults();
 
     } // run()
 
-    /** Hardcoded filename here - this example is on my Powerbook G4.
-     */
-    void openFile() {
-        // File is the 2 April 1053 Watson, Crick letter to Nature
-        try{
-
-            inFile = new Scanner(new File("SampleInput.txt"));
-        }
-        catch (Exception e) {
-            System.out.println("No existe el archivo test.txt dentro del folder");}
-    } // openFile()
 
     void addBigramToTable(String bigram, Hashtable table )
     {
@@ -120,7 +107,7 @@ public class Bigrams {
         }
         catch (FileNotFoundException ex)
         {
-            System.out.println("No existe el archivo test.txt dentro del folder");
+            System.out.println("No existe el archivo Input.txt dentro del folder");
         }
 
 
@@ -179,38 +166,35 @@ public class Bigrams {
 
     void showFrequencyResults() {
 
-        Comparator comp = new Comparator(){
-            public int compare(Object o1, Object o2){
-                int i1 = ((BigramsCounts)o1).count;
-                int i2 = ((BigramsCounts)o2).count;
-                if(i1 == i2) return 0;
-                return ((i1 > i2) ? -1 : +1);
-            }
-        }; // Comparator comp
+        BufferedWriter output = null;
+        try {
+            File file = new File("Result.txt");
+            output = new BufferedWriter(new FileWriter(file));
+            Comparator comp = new Comparator(){
+                public int compare(Object o1, Object o2){
+                    int i1 = ((BigramsCounts)o1).count;
+                    int i2 = ((BigramsCounts)o2).count;
+                    if(i1 == i2) return 0;
+                    return ((i1 > i2) ? -1 : +1);
+                }
+            }; // Comparator comp
 
-        Arrays.sort(fullResults, comp);
-      //  System.out.println("Results sorted by bigram count:");
-        for(int i=0; i < fullResults.length; i++)
-            System.out.println(fullResults[i].bigram + "-"+fullResults[i].count );
+            Arrays.sort(fullResults, comp);
+            for(int i=0; i < fullResults.length; i++)
+                output.write(fullResults[i].bigram + "-"+fullResults[i].count + "\n");
+            //output.close();
+            output.close();
+
+
+        } catch ( IOException e ) {
+            e.printStackTrace();
+        } finally {
+            if ( output != null ) {
+
+            }
+        }
 
 
     } // showFrequencyResults()
 
-} // class SimpleBigramStats
-
-/*
- Using the Watson and Crick April 1953 Letter to Nature.
- Number of bigrams is: 652
-
- Here are the largest entries from the count sorted result:
- 11 of the
- 7 that the
- 6 and the
- 5 it is
- 5 on the
- 5 in the
- 4 to the
- 4 the other
- 4 the bases
-
- */
+}

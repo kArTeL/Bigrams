@@ -9,4 +9,5 @@ Java JDK
 
 ## How run
 The executable needs a source file, the sourcefiles need to be named as **Input.txt**, then just run:
-`java Bigrams >> Result.txt`
+`java Bigrams`.
+The output is in a file named **Result.txt**.
